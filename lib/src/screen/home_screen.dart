@@ -55,7 +55,10 @@ class _HomeScreenState extends State<HomeScreen> {
     } 
     Position coordinates = await Geolocator.getCurrentPosition();
     var address = await Geocoder.local.findAddressesFromCoordinates(Coordinates(coordinates.latitude, coordinates.longitude));
-    getData(address.first.subAdminArea);
+    if(address.first.subAdminArea!.isNotEmpty){
+      defaltCity = address.first.subAdminArea!;
+    }
+    getData(defaltCity);
     return coordinates;
   }
   Future <void> getData (city) async {
@@ -93,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
         stream: Connectivity().onConnectivityChanged,
         builder: (BuildContext contaxt, AsyncSnapshot<ConnectivityResult> snapshot){
           if(snapshot.hasData && snapshot.data != ConnectivityResult.none){
+            
             return apiHit 
             ? 
             SingleChildScrollView(
