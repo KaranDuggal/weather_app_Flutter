@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // ignore: prefer_typing_uninitialized_variables
   var weatherOldInfo;
   bool apiHit = false;
+  bool isInternetOn = false;
   String search = '';
   String sunrise = '';
   String sunset = '';
@@ -30,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState(){
     super.initState();
-    _determinePosition();
   }
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if(address.first.subAdminArea!.isNotEmpty){
       defaltCity = address.first.subAdminArea!;
     }
-    getData(defaltCity);
+    await getData(defaltCity);
     return coordinates;
   }
   Future <void> getData (city) async {
@@ -96,7 +96,10 @@ class _HomeScreenState extends State<HomeScreen> {
         stream: Connectivity().onConnectivityChanged,
         builder: (BuildContext contaxt, AsyncSnapshot<ConnectivityResult> snapshot){
           if(snapshot.hasData && snapshot.data != ConnectivityResult.none){
-            
+            if(isInternetOn == false){
+              _determinePosition();
+              isInternetOn = true;
+            }
             return apiHit 
             ? 
             SingleChildScrollView(
@@ -316,6 +319,9 @@ class _HomeScreenState extends State<HomeScreen> {
             : 
             const Center(child: Text("fetching data"));
           }else{
+            if(isInternetOn == true){
+              isInternetOn = false;
+            }
             return const Center(child: Text("Not connected"));
           }
         },
