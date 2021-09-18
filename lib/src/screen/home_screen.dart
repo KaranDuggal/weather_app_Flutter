@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_geocoder/geocoder.dart';
+import 'package:cool_alert/cool_alert.dart';
+import 'package:weather_app_flutter2_5/src/models/weather_data.dart';
+import 'package:weather_app_flutter2_5/src/services/api_service.dart';
+import 'package:intl/intl.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({ Key? key }) : super(key: key);
 
@@ -11,7 +17,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
+  // ignore: prefer_typing_uninitialized_variables
   var weatherInfo;
+  // ignore: prefer_typing_uninitialized_variables
   var weatherOldInfo;
   bool apiHit = false;
   String search = '';
@@ -22,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState(){
     super.initState();
     _determinePosition();
+    getData("jalandhar");
   }
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -44,7 +53,32 @@ class _HomeScreenState extends State<HomeScreen> {
     var addresses = await Geocoder.local.findAddressesFromCoordinates(Coordinates(coordinates.latitude, coordinates.longitude));
     return coordinates;
   }
+  Future <void> getData (city) async {
+    var data = await ApiService().get(city);
+    weatherOldInfo = weatherInfo;
+    weatherInfo = Weatherdata.fromJson(jsonDecode(data));
+    apiHit = true;
+    if(weatherInfo!.cod == 200){
+      // await Future.delayed(Duration(seconds: 2));dd MMMM yyyy, hh:mm a
+      sunrise = DateFormat('hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(weatherInfo.sys.sunrise *1000));
+      sunset = DateFormat('hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(weatherInfo.sys.sunset *1000));
+      print('sunrise $sunrise , sunset $sunset ');
+      setState(() {
 
+      });
+    }else{
+      weatherInfo = weatherOldInfo;
+      setState(() {
+
+      });
+      CoolAlert.show(
+        context: context,
+        type: CoolAlertType.error,
+        text: "Invalid City Name '$search'",
+        autoCloseDuration: const Duration(seconds: 5),
+      );
+    }
+  }
 
   
   @override
