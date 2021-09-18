@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -8,12 +9,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  @override
+  void initState(){
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("child"),
-      ),
+    return Scaffold(
+      body: StreamBuilder(
+        stream: Connectivity().onConnectivityChanged,
+        builder: (BuildContext contaxt, AsyncSnapshot<ConnectivityResult> snapshot){
+          if(snapshot.hasData && snapshot.data != ConnectivityResult.none){
+            return const Center(child: Text("connected"));
+          }else{
+            return const Center(child: Text("Not connected"));
+          }
+        },
+      )
     );
   }
 }
