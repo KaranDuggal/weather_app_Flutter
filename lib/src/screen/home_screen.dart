@@ -35,7 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
-    await Geolocator.openLocationSettings();
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       return Future.error('Location services are disabled.');
@@ -88,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
         stream: Connectivity().onConnectivityChanged,
         builder: (BuildContext contaxt, AsyncSnapshot<ConnectivityResult> snapshot){
           if(snapshot.hasData && snapshot.data != ConnectivityResult.none){
-            return const Center(child: Text("connected"));
+            return apiHit ? const Center(child: Text("connected")) : const Center(child: Text("fetching data"));
           }else{
             return const Center(child: Text("Not connected"));
           }
