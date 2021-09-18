@@ -31,26 +31,31 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState(){
     super.initState();
     _determinePosition();
-    getData("jalandhar");
   }
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      await getData(defaltCity);
       return Future.error('Location services are disabled.');
     }
     permission = await Geolocator.checkPermission();
     await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {return Future.error('Location permissions are denied');}
+      if (permission == LocationPermission.denied) { 
+        await getData(defaltCity); 
+        return Future.error('Location permissions are denied');
+      }
     }
     if (permission == LocationPermission.deniedForever) {
+      await getData(defaltCity);
       return Future.error('Location permissions are permanently denied, we cannot request permissions.');
     } 
     Position coordinates = await Geolocator.getCurrentPosition();
-    var addresses = await Geocoder.local.findAddressesFromCoordinates(Coordinates(coordinates.latitude, coordinates.longitude));
+    var address = await Geocoder.local.findAddressesFromCoordinates(Coordinates(coordinates.latitude, coordinates.longitude));
+    getData(address.first.subAdminArea);
     return coordinates;
   }
   Future <void> getData (city) async {
