@@ -1,14 +1,14 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_geocoder/geocoder.dart';
-import 'package:cool_alert/cool_alert.dart';
+// import 'package:cool_alert/cool_alert.dart';
 import 'package:weather_app_flutter2_5/src/models/weather_data.dart';
 import 'package:weather_app_flutter2_5/src/services/api_service.dart';
 import 'package:intl/intl.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({ Key? key }) : super(key: key);
 
@@ -74,17 +74,12 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }else{
       weatherInfo = weatherOldInfo;
-
-      
+      Alert(
+        context: context,
+        title: "ERROR !!!",
+        desc: "Invalid city name. \"$search\"",
+      ).show();
       setState(() {
-        CoolAlert.show(
-          context: context,
-          type: CoolAlertType.error,
-          text: "Invalid City Name",
-          autoCloseDuration: const Duration(seconds: 5),
-
-        );
-        apiHit = true;
       });
     }
   }
@@ -92,9 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
   
   @override
   Widget build(BuildContext context) {
-    var cityNames = ["Mumbai","Delhi","Chennai","Jalandhar","Hyderabad","Pune","Berlin","Chicago","Washington","Las Vegas","New York","Munich","Hamburg"];
-    final _random = Random();
-    var city = cityNames[_random.nextInt(cityNames.length)];
+    String city = "Mumbai";
     return Scaffold(
       body: StreamBuilder(
         stream: Connectivity().onConnectivityChanged,
