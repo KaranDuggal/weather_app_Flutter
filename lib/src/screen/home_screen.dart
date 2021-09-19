@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_geocoder/geocoder.dart';
 import 'package:weather_app_flutter2_5/src/models/weather_data.dart';
+import 'package:weather_app_flutter2_5/src/screen/loading_screen.dart';
 import 'package:weather_app_flutter2_5/src/services/api_service.dart';
 import 'package:intl/intl.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -88,6 +89,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     String city = "Mumbai";
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: AppBar(
+            backgroundColor: Colors.blue.shade300,
+          ),
+        ),
       body: StreamBuilder(
         stream: Connectivity().onConnectivityChanged,
         builder: (BuildContext contaxt, AsyncSnapshot<ConnectivityResult> snapshot){
@@ -313,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )
             : 
-            const Center(child: Text("fetching data"));
+            const LoadingScreen();
           }else{
             if(isInternetOn == true){
               isInternetOn = false;
