@@ -165,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   }
                                 },
                                 decoration: InputDecoration(
-                                  hintText: "Search any city name eg. $city",
+                                  hintText: "Search any city name eg. \"$city\"",
                                   border: InputBorder.none
                                 ),
                                 onChanged: (value){
