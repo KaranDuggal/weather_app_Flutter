@@ -4,7 +4,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_geocoder/geocoder.dart';
-// import 'package:cool_alert/cool_alert.dart';
 import 'package:weather_app_flutter2_5/src/models/weather_data.dart';
 import 'package:weather_app_flutter2_5/src/services/api_service.dart';
 import 'package:intl/intl.dart';
