@@ -181,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Expanded(
                             child: Container(
                               margin: const EdgeInsets.symmetric(horizontal: 20),
-                              padding: const EdgeInsets.all(25),
+                              padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 16),
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.5),
                                 borderRadius: BorderRadius.circular(15)
@@ -190,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   Image.network("https://openweathermap.org/img/wn/${weatherInfo.weather[0].icon}.png"),
                                   // Image.asset('assets/images/snowyoutline.png',height: 50,width: 50,),
-                                  const SizedBox(width: 10,height: 50,),
+                                  // const SizedBox(width: 5,height: 50,),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
