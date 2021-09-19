@@ -74,14 +74,18 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }else{
       weatherInfo = weatherOldInfo;
+
+      
       setState(() {
+        CoolAlert.show(
+          context: context,
+          type: CoolAlertType.error,
+          text: "Invalid City Name",
+          autoCloseDuration: const Duration(seconds: 5),
+
+        );
+        apiHit = true;
       });
-      CoolAlert.show(
-        context: context,
-        type: CoolAlertType.error,
-        text: "Invalid City Name '$search'",
-        autoCloseDuration: const Duration(seconds: 5),
-      );
     }
   }
 
