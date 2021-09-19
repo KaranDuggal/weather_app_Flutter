@@ -55,7 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
     } 
     Position coordinates = await Geolocator.getCurrentPosition();
     var address = await Geocoder.local.findAddressesFromCoordinates(Coordinates(coordinates.latitude, coordinates.longitude));
-    print(address.first);
     if(address.first.adminArea!.isNotEmpty){
       defaltCity = address.first.adminArea!;
     }
