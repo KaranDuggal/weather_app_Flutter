@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:flutter_geocoder/geocoder.dart';
+// import 'package:flutter_geocoder/geocoder.dart';
 import 'package:weather_app_flutter2_5/src/models/weather_data.dart';
 import 'package:weather_app_flutter2_5/src/screen/loading_screen.dart';
 import 'package:weather_app_flutter2_5/src/services/api_service.dart';
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String search = '';
   String sunrise = '';
   String sunset = '';
-  String defaltCity = 'jalandhar';
+  String defaltCity = 'q=jalandhar';
   @override
   void initState(){
     super.initState();
@@ -54,11 +54,12 @@ class _HomeScreenState extends State<HomeScreen> {
       return Future.error('Location permissions are permanently denied, we cannot request permissions.');
     } 
     Position coordinates = await Geolocator.getCurrentPosition();
-    var address = await Geocoder.local.findAddressesFromCoordinates(Coordinates(coordinates.latitude, coordinates.longitude));
-    if(address.first.adminArea!.isNotEmpty){
-      defaltCity = address.first.adminArea!;
-    }
-    await getData(defaltCity);
+    await getData("lat=${coordinates.latitude}&lon=${coordinates.longitude}");
+    // var address = await Geocoder.local.findAddressesFromCoordinates(Coordinates(coordinates.latitude, coordinates.longitude));
+    // if(address.first.adminArea!.isNotEmpty){
+    //   defaltCity = address.first.adminArea!;
+    // }
+    // await getData(defaltCity);
     return coordinates;
   }
   Future <void> getData (city) async {
@@ -147,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   apiHit = false;
                                   setState(() {
                                   });
-                                  await getData(search);
+                                  await getData("q=$search");
                                 }
                               },
                               child: const Icon(Icons.search),
@@ -161,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     apiHit = false;
                                     setState(() {
                                     });
-                                    await getData(search);
+                                    await getData("q=$search");
                                   }
                                 },
                                 decoration: InputDecoration(
