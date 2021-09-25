@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 // import 'package:flutter_geocoder/geocoder.dart';
 import 'package:weather_app_flutter2_5/src/models/weather_data.dart';
+import 'package:weather_app_flutter2_5/src/screen/internet_error_screen.dart';
 import 'package:weather_app_flutter2_5/src/screen/loading_screen.dart';
 import 'package:weather_app_flutter2_5/src/services/api_service.dart';
 import 'package:intl/intl.dart';
@@ -327,7 +328,7 @@ class _HomeScreenState extends State<HomeScreen> {
             if(isInternetOn == true){
               isInternetOn = false;
             }
-            return const Center(child: Text("Not connected"));
+            return const InternetErrorScreen();
           }
         },
       )
