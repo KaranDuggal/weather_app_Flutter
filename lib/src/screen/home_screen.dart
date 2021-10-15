@@ -3,7 +3,6 @@ import 'dart:io' show Platform;
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-// import 'package:flutter_geocoder/geocoder.dart';
 import 'package:weather_app_flutter2_5/src/models/weather_data.dart';
 import 'package:weather_app_flutter2_5/src/screen/internet_error_screen.dart';
 import 'package:weather_app_flutter2_5/src/screen/loading_screen.dart';
